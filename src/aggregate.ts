@@ -109,7 +109,7 @@ async function loadReport(filePath: string): Promise<StoredReport | null> {
  * Older reports without the `graded` field are treated as graded unless
  * their projectType is "documentation".
  */
-function isGraded(report: StoredReport): boolean {
+export function isGraded(report: StoredReport): boolean {
   if (report.graded !== undefined) {
     return report.graded;
   }
@@ -121,7 +121,7 @@ function isGraded(report: StoredReport): boolean {
  * Documentation repos are counted separately and excluded from grade
  * distribution and average score calculations.
  */
-function computeAggregate(reports: StoredReport[]): AggregateResult {
+export function computeAggregate(reports: StoredReport[]): AggregateResult {
   const gradeDistribution: GradeDistribution = { A: 0, B: 0, C: 0, D: 0, F: 0 };
   const typeBreakdown: Record<string, number> = {};
   const languageBreakdown: Record<string, number> = {};
