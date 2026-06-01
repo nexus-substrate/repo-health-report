@@ -1,0 +1,627 @@
+{
+  "meta": {
+    "month": "2026-06",
+    "generated": "2026-06-01T07:56:57.062Z",
+    "totalRepos": 88,
+    "successCount": 0,
+    "failCount": 88
+  },
+  "repos": [
+    {
+      "slug": "facebook/react",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/facebook/react failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "vuejs/core",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/vuejs/core failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "vercel/next.js",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/vercel/next.js failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "sveltejs/svelte",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/sveltejs/svelte failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "angular/angular",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/angular/angular failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "denoland/fresh",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/denoland/fresh failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "remix-run/remix",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/remix-run/remix failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "microsoft/TypeScript",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/microsoft/TypeScript failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "expressjs/express",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/expressjs/express failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "nodejs/node",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/nodejs/node failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "oven-sh/bun",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/oven-sh/bun failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "biomejs/biome",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/biomejs/biome failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "prettier/prettier",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/prettier/prettier failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "eslint/eslint",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/eslint/eslint failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "vitejs/vite",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/vitejs/vite failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "tailwindlabs/tailwindcss",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/tailwindlabs/tailwindcss failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "django/django",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/django/django failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "pallets/flask",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/pallets/flask failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "fastapi/fastapi",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/fastapi/fastapi failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "encode/httpx",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/encode/httpx failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "psf/requests",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/psf/requests failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "python/cpython",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/python/cpython failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "scikit-learn/scikit-learn",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/scikit-learn/scikit-learn failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "huggingface/transformers",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/huggingface/transformers failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "langchain-ai/langchain",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/langchain-ai/langchain failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "pytest-dev/pytest",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/pytest-dev/pytest failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "python-poetry/poetry",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/python-poetry/poetry failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "astral-sh/ruff",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/astral-sh/ruff failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "astral-sh/uv",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/astral-sh/uv failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "kubernetes/kubernetes",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/kubernetes/kubernetes failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "hashicorp/terraform",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/hashicorp/terraform failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "docker/cli",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/docker/cli failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "golang/go",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/golang/go failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "prometheus/prometheus",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/prometheus/prometheus failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "grafana/grafana",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/grafana/grafana failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "traefik/traefik",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/traefik/traefik failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "containerd/containerd",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/containerd/containerd failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "etcd-io/etcd",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/etcd-io/etcd failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "caddyserver/caddy",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/caddyserver/caddy failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "BurntSushi/ripgrep",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/BurntSushi/ripgrep failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "alacritty/alacritty",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/alacritty/alacritty failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "denoland/deno",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/denoland/deno failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "rust-lang/rust",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/rust-lang/rust failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "tokio-rs/tokio",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/tokio-rs/tokio failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "starship/starship",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/starship/starship failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "sharkdp/bat",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/sharkdp/bat failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "sharkdp/fd",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/sharkdp/fd failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "lsd-rs/lsd",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/lsd-rs/lsd failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "meilisearch/meilisearch",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/meilisearch/meilisearch failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "cloud-gov/cg-site",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/cloud-gov/cg-site failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "cloud-gov/pages-core",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/cloud-gov/pages-core failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "18F/identity-idp",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/18F/identity-idp failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "18F/methods",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/18F/methods failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "GSA/data.gov",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/GSA/data.gov failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "GSA/sam-design-system",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/GSA/sam-design-system failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "codeforamerica/court-reminder",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/codeforamerica/court-reminder failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "usds/website",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/usds/website failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "uswds/uswds",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/uswds/uswds failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "department-of-veterans-affairs/vets-website",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/department-of-veterans-affairs/vets-website failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "hashicorp/consul",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/hashicorp/consul failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "hashicorp/vault",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/hashicorp/vault failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "hashicorp/packer",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/hashicorp/packer failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "pulumi/pulumi",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/pulumi/pulumi failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "ansible/ansible",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/ansible/ansible failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "aws/aws-cdk",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/aws/aws-cdk failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "crossplane/crossplane",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/crossplane/crossplane failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "OWASP/ZAP",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/OWASP/ZAP failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "aquasecurity/trivy",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/aquasecurity/trivy failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "anchore/grype",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/anchore/grype failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "trufflesecurity/trufflehog",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/trufflesecurity/trufflehog failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "gitleaks/gitleaks",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/gitleaks/gitleaks failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "ossf/scorecard",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/ossf/scorecard failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "sigstore/cosign",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/sigstore/cosign failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "zaproxy/zaproxy",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/zaproxy/zaproxy failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "jqlang/jq",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/jqlang/jq failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "junegunn/fzf",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/junegunn/fzf failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "ajeetdsouza/zoxide",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/ajeetdsouza/zoxide failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "dandavison/delta",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/dandavison/delta failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "jesseduffield/lazygit",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/jesseduffield/lazygit failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "charmbracelet/glow",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/charmbracelet/glow failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "antonmedv/fx",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/antonmedv/fx failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "microsoft/vscode",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/microsoft/vscode failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "elastic/elasticsearch",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/elastic/elasticsearch failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "apache/kafka",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/apache/kafka failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "vercel/turbo",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/vercel/turbo failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "NixOS/nixpkgs",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/NixOS/nixpkgs failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "torvalds/linux",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/torvalds/linux failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    },
+    {
+      "slug": "llvm/llvm-project",
+      "score": 0,
+      "letter": "F",
+      "dimensions": {},
+      "error": "gh api /repos/llvm/llvm-project failed: gh: To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable. Example:\n  env:\n    GH_TOKEN: ${{ github.token }}"
+    }
+  ]
+}
