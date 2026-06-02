@@ -1,6 +1,6 @@
 # repo-health-report
 
-[![CI](https://github.com/williamzujkowski/repo-health-report/actions/workflows/ci.yml/badge.svg)](https://github.com/williamzujkowski/repo-health-report/actions/workflows/ci.yml)
+[![CI](https://github.com/nexus-substrate/repo-health-report/actions/workflows/ci.yml/badge.svg)](https://github.com/nexus-substrate/repo-health-report/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/repo-health-report)](https://www.npmjs.com/package/repo-health-report)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
