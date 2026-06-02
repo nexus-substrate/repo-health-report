@@ -1,0 +1,2 @@
+# gitleaks allowlist — confirmed false positive (high-entropy GitHub topic string in generated dashboard data, not a credential)
+data/dashboard/leaderboard.json:generic-api-key:1
