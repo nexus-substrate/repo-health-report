@@ -17,112 +17,19 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import chalk from "chalk";
-import type { TrendSnapshot, TrendRepoEntry } from "./trend.js";
+import type { TrendSnapshot } from "./trend.js";
 
-// ── Types ──────────────────────────────────────────────────────────────────
+// The trend math lives in a pure, side-effect-free module so the dashboard
+// (site/src/pages/trends.astro) can reuse it at build time. Re-exported here
+// for backward compatibility with existing importers/tests.
+export {
+  computeTrendSummary,
+  computeRepoDeltas,
+  type TrendDelta,
+  type TrendSummary,
+} from "./trend-summary.js";
 
-export interface TrendDelta {
-  slug: string;
-  previousScore: number;
-  currentScore: number;
-  delta: number;
-  previousLetter: string;
-  currentLetter: string;
-  dimensionDeltas: Record<string, number>;
-}
-
-export interface TrendSummary {
-  previousMonth: string;
-  currentMonth: string;
-  totalRepos: number;
-  improved: number;
-  regressed: number;
-  unchanged: number;
-  averageDelta: number;
-  biggestGainers: TrendDelta[];
-  biggestLosers: TrendDelta[];
-  newRepos: TrendRepoEntry[];
-  droppedRepos: string[];
-}
-
-// ── Analysis ────────────────────────────────────────────────────────────────
-
-export function computeTrendSummary(
-  previous: TrendSnapshot,
-  current: TrendSnapshot,
-): TrendSummary {
-  const prevMap = new Map(
-    previous.repos
-      .filter((r) => !r.error)
-      .map((r) => [r.slug, r])
-  );
-  const currMap = new Map(
-    current.repos
-      .filter((r) => !r.error)
-      .map((r) => [r.slug, r])
-  );
-
-  const deltas: TrendDelta[] = [];
-  const newRepos: TrendRepoEntry[] = [];
-  const droppedRepos: string[] = [];
-
-  // Compute deltas for repos in both snapshots
-  for (const [slug, curr] of currMap) {
-    const prev = prevMap.get(slug);
-    if (!prev) {
-      newRepos.push(curr);
-      continue;
-    }
-
-    const dimensionDeltas: Record<string, number> = {};
-    for (const [dimName, dimScore] of Object.entries(curr.dimensions)) {
-      const prevDimScore = prev.dimensions[dimName] ?? 0;
-      dimensionDeltas[dimName] = dimScore - prevDimScore;
-    }
-
-    deltas.push({
-      slug,
-      previousScore: prev.score,
-      currentScore: curr.score,
-      delta: curr.score - prev.score,
-      previousLetter: prev.letter,
-      currentLetter: curr.letter,
-      dimensionDeltas,
-    });
-  }
-
-  // Find dropped repos (in previous but not current)
-  for (const slug of prevMap.keys()) {
-    if (!currMap.has(slug)) {
-      droppedRepos.push(slug);
-    }
-  }
-
-  const improved = deltas.filter((d) => d.delta > 0).length;
-  const regressed = deltas.filter((d) => d.delta < 0).length;
-  const unchanged = deltas.filter((d) => d.delta === 0).length;
-  const totalDelta = deltas.reduce((sum, d) => sum + d.delta, 0);
-  const averageDelta = deltas.length > 0 ? Math.round((totalDelta / deltas.length) * 10) / 10 : 0;
-
-  // Sort by delta descending for gainers, ascending for losers
-  const sorted = [...deltas].sort((a, b) => b.delta - a.delta);
-  const biggestGainers = sorted.filter((d) => d.delta > 0).slice(0, 5);
-  const biggestLosers = sorted.filter((d) => d.delta < 0).reverse().slice(0, 5);
-
-  return {
-    previousMonth: previous.meta.month,
-    currentMonth: current.meta.month,
-    totalRepos: deltas.length,
-    improved,
-    regressed,
-    unchanged,
-    averageDelta,
-    biggestGainers,
-    biggestLosers,
-    newRepos,
-    droppedRepos,
-  };
-}
+import { computeTrendSummary, type TrendSummary } from "./trend-summary.js";
 
 // ── Loading ─────────────────────────────────────────────────────────────────
 

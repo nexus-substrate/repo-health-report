@@ -9,37 +9,24 @@
  * Usage: node dist/aggregate.js
  */
 
-import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import chalk from "chalk";
-import type { DimensionResult, Finding } from "./dimensions/security.js";
-import type { ProjectType } from "./analyze.js";
+import {
+  findJsonFiles,
+  loadReport,
+  isGraded,
+  type StoredReport,
+  type GradeDistribution,
+} from "./report-store.js";
+
+// Re-exported so existing consumers (and tests) can import isGraded from here.
+export { isGraded };
 
 const DATA_DIR = join(process.cwd(), "data");
 const REPORTS_DIR = join(DATA_DIR, "reports");
 const AGGREGATE_PATH = join(DATA_DIR, "aggregate.json");
 const INDEX_PATH = join(DATA_DIR, "index.json");
-
-interface StoredReport {
-  repo: string;
-  letter: string;
-  overall: number;
-  graded?: boolean;
-  dimensions: DimensionResult[];
-  totalDurationMs: number;
-  projectType: ProjectType;
-  language: string | null;
-  analyzedAt: string;
-  toolVersion: string;
-}
-
-interface GradeDistribution {
-  A: number;
-  B: number;
-  C: number;
-  D: number;
-  F: number;
-}
 
 interface DimensionAverage {
   name: string;
@@ -67,53 +54,6 @@ interface AggregateResult {
   languageBreakdown: Record<string, number>;
   topPassingChecks: CheckStat[];
   topFailingChecks: CheckStat[];
-}
-
-/**
- * Recursively find all JSON files under a directory.
- */
-async function findJsonFiles(dir: string): Promise<string[]> {
-  const files: string[] = [];
-  let entries;
-  try {
-    entries = await readdir(dir, { withFileTypes: true });
-  } catch {
-    return files;
-  }
-  for (const entry of entries) {
-    const fullPath = join(dir, entry.name);
-    if (entry.isDirectory()) {
-      const nested = await findJsonFiles(fullPath);
-      files.push(...nested);
-    } else if (entry.name.endsWith(".json")) {
-      files.push(fullPath);
-    }
-  }
-  return files;
-}
-
-/**
- * Load and parse a report file.
- */
-async function loadReport(filePath: string): Promise<StoredReport | null> {
-  try {
-    const content = await readFile(filePath, "utf-8");
-    return JSON.parse(content) as StoredReport;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Determine whether a stored report represents a graded (code) repo.
- * Older reports without the `graded` field are treated as graded unless
- * their projectType is "documentation".
- */
-export function isGraded(report: StoredReport): boolean {
-  if (report.graded !== undefined) {
-    return report.graded;
-  }
-  return report.projectType !== "documentation";
 }
 
 /**

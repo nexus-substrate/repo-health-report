@@ -2,28 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import fs from 'node:fs';
 import path from 'node:path';
+import { computeTrendSummary, computeRepoDeltas } from '../../../src/trend-summary.ts';
+import type { TrendSnapshot } from '../../../src/trend.ts';
 
 const base = import.meta.env.BASE_URL;
-
-// Load trend snapshots from data/trends/
-interface TrendRepo {
-  slug: string;
-  score: number;
-  letter: string;
-  dimensions: Record<string, number>;
-  error?: string;
-}
-
-interface TrendSnapshot {
-  meta: {
-    month: string;
-    generated: string;
-    totalRepos: number;
-    successCount: number;
-    failCount: number;
-  };
-  repos: TrendRepo[];
-}
 
 const trendsDir = path.resolve(process.cwd(), '../data/trends');
 let snapshots: TrendSnapshot[] = [];
@@ -70,37 +52,32 @@ let comparison: {
 if (hasComparison) {
   const prev = snapshots[snapshots.length - 2];
   const curr = snapshots[snapshots.length - 1];
-  const prevMap = new Map(prev.repos.filter(r => !r.error).map(r => [r.slug, r]));
 
-  const deltas: RepoDelta[] = [];
-  for (const r of curr.repos.filter(r => !r.error)) {
-    const p = prevMap.get(r.slug);
-    if (p) {
-      deltas.push({
-        slug: r.slug,
-        prevScore: p.score,
-        currScore: r.score,
-        delta: r.score - p.score,
-        prevLetter: p.letter,
-        currLetter: r.letter,
-      });
-    }
-  }
+  // Reuse the canonical trend math (src/trend-summary.ts) so the dashboard and
+  // the `trends` CLI cannot drift. The summary gives the scalars; the per-repo
+  // delta list feeds the table (mapped onto this page's RepoDelta view model).
+  const summary = computeTrendSummary(prev, curr);
+  const { deltas } = computeRepoDeltas(prev, curr);
 
-  const improved = deltas.filter(d => d.delta > 0).length;
-  const regressed = deltas.filter(d => d.delta < 0).length;
-  const unchanged = deltas.filter(d => d.delta === 0).length;
-  const totalDelta = deltas.reduce((s, d) => s + d.delta, 0);
-  const avgDelta = deltas.length > 0 ? Math.round((totalDelta / deltas.length) * 10) / 10 : 0;
+  const repoDeltas: RepoDelta[] = deltas
+    .map(d => ({
+      slug: d.slug,
+      prevScore: d.previousScore,
+      currScore: d.currentScore,
+      delta: d.delta,
+      prevLetter: d.previousLetter,
+      currLetter: d.currentLetter,
+    }))
+    .sort((a, b) => b.delta - a.delta);
 
   comparison = {
-    prevMonth: prev.meta.month,
-    currMonth: curr.meta.month,
-    deltas: deltas.sort((a, b) => b.delta - a.delta),
-    improved,
-    regressed,
-    unchanged,
-    avgDelta,
+    prevMonth: summary.previousMonth,
+    currMonth: summary.currentMonth,
+    deltas: repoDeltas,
+    improved: summary.improved,
+    regressed: summary.regressed,
+    unchanged: summary.unchanged,
+    avgDelta: summary.averageDelta,
   };
 }
 
