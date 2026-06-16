@@ -1,0 +1,389 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const base = import.meta.env.BASE_URL;
+
+// Load trend snapshots from data/trends/
+interface TrendRepo {
+  slug: string;
+  score: number;
+  letter: string;
+  dimensions: Record<string, number>;
+  error?: string;
+}
+
+interface TrendSnapshot {
+  meta: {
+    month: string;
+    generated: string;
+    totalRepos: number;
+    successCount: number;
+    failCount: number;
+  };
+  repos: TrendRepo[];
+}
+
+const trendsDir = path.resolve(process.cwd(), '../data/trends');
+let snapshots: TrendSnapshot[] = [];
+
+try {
+  const files = fs.readdirSync(trendsDir)
+    .filter((f: string) => f.endsWith('.json') && f !== '.gitkeep')
+    .sort();
+  for (const file of files) {
+    try {
+      const content = fs.readFileSync(path.join(trendsDir, file), 'utf-8');
+      snapshots.push(JSON.parse(content) as TrendSnapshot);
+    } catch {
+      // skip malformed files
+    }
+  }
+} catch {
+  // no trends directory yet
+}
+
+const hasData = snapshots.length > 0;
+const hasComparison = snapshots.length >= 2;
+
+// Compute comparison if we have 2+ snapshots
+interface RepoDelta {
+  slug: string;
+  prevScore: number;
+  currScore: number;
+  delta: number;
+  prevLetter: string;
+  currLetter: string;
+}
+
+let comparison: {
+  prevMonth: string;
+  currMonth: string;
+  deltas: RepoDelta[];
+  improved: number;
+  regressed: number;
+  unchanged: number;
+  avgDelta: number;
+} | null = null;
+
+if (hasComparison) {
+  const prev = snapshots[snapshots.length - 2];
+  const curr = snapshots[snapshots.length - 1];
+  const prevMap = new Map(prev.repos.filter(r => !r.error).map(r => [r.slug, r]));
+
+  const deltas: RepoDelta[] = [];
+  for (const r of curr.repos.filter(r => !r.error)) {
+    const p = prevMap.get(r.slug);
+    if (p) {
+      deltas.push({
+        slug: r.slug,
+        prevScore: p.score,
+        currScore: r.score,
+        delta: r.score - p.score,
+        prevLetter: p.letter,
+        currLetter: r.letter,
+      });
+    }
+  }
+
+  const improved = deltas.filter(d => d.delta > 0).length;
+  const regressed = deltas.filter(d => d.delta < 0).length;
+  const unchanged = deltas.filter(d => d.delta === 0).length;
+  const totalDelta = deltas.reduce((s, d) => s + d.delta, 0);
+  const avgDelta = deltas.length > 0 ? Math.round((totalDelta / deltas.length) * 10) / 10 : 0;
+
+  comparison = {
+    prevMonth: prev.meta.month,
+    currMonth: curr.meta.month,
+    deltas: deltas.sort((a, b) => b.delta - a.delta),
+    improved,
+    regressed,
+    unchanged,
+    avgDelta,
+  };
+}
+
+// Latest snapshot summary
+const latest = snapshots.length > 0 ? snapshots[snapshots.length - 1] : null;
+const latestRepos = latest ? latest.repos.filter(r => !r.error) : [];
+const latestAvg = latestRepos.length > 0
+  ? Math.round(latestRepos.reduce((s, r) => s + r.score, 0) / latestRepos.length)
+  : 0;
+
+// Grade distribution for latest
+const gradeDist: Record<string, number> = {};
+for (const r of latestRepos) {
+  gradeDist[r.letter] = (gradeDist[r.letter] ?? 0) + 1;
+}
+
+// History of average scores
+const history = snapshots.map(s => {
+  const good = s.repos.filter(r => !r.error);
+  return {
+    month: s.meta.month,
+    avg: good.length > 0 ? Math.round(good.reduce((sum, r) => sum + r.score, 0) / good.length) : 0,
+    count: good.length,
+  };
+});
+
+function gradeColor(letter: string): string {
+  if (letter === 'A') return 'var(--color-grade-a)';
+  if (letter === 'B') return 'var(--color-grade-b)';
+  if (letter === 'C') return 'var(--color-grade-c)';
+  if (letter === 'D') return 'var(--color-grade-d, #f59e0b)';
+  return 'var(--color-grade-f)';
+}
+
+function deltaColor(delta: number): string {
+  if (delta > 0) return 'var(--color-grade-a)';
+  if (delta < 0) return 'var(--color-grade-f)';
+  return 'var(--text-muted, #888)';
+}
+---
+
+<BaseLayout title="Trends" description="Track how repo health scores change over time">
+  <section class="hero">
+    <h1>Health Trends</h1>
+    <p class="subtitle">Score progression across monthly snapshots</p>
+  </section>
+
+  {!hasData && (
+    <section class="card empty-state">
+      <h2>No trend data yet</h2>
+      <p>Trend snapshots are generated monthly. Run <code>npm run trend</code> to create your first snapshot, or wait for the automated monthly workflow.</p>
+    </section>
+  )}
+
+  {hasData && latest && (
+    <section class="overview">
+      <div class="stat-row">
+        <div class="card stat">
+          <div class="stat-value">{snapshots.length}</div>
+          <div class="stat-label">Snapshots</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">{latestAvg}</div>
+          <div class="stat-label">Avg Score ({latest.meta.month})</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-value">{latest.meta.successCount}</div>
+          <div class="stat-label">Repos Tracked</div>
+        </div>
+        {comparison && (
+          <div class="card stat">
+            <div class="stat-value" style={`color: ${deltaColor(comparison.avgDelta)}`}>
+              {comparison.avgDelta > 0 ? '+' : ''}{comparison.avgDelta}
+            </div>
+            <div class="stat-label">Avg Delta</div>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {history.length > 1 && (
+    <section class="card">
+      <h2>Fleet Average Over Time</h2>
+      <div class="history-chart">
+        {history.map(h => (
+          <div class="history-bar-container">
+            <div class="history-bar" style={`height: ${h.avg}%; background: ${h.avg >= 70 ? 'var(--color-grade-a)' : h.avg >= 55 ? 'var(--color-grade-c)' : 'var(--color-grade-f)'}`} title={`${h.month}: ${h.avg}/100 (${h.count} repos)`}>
+              <span class="bar-value">{h.avg}</span>
+            </div>
+            <span class="bar-label">{h.month}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {comparison && (
+    <section class="card">
+      <h2>Changes: {comparison.prevMonth} &rarr; {comparison.currMonth}</h2>
+      <div class="delta-summary">
+        <span class="improved">{comparison.improved} improved</span>
+        <span class="unchanged">{comparison.unchanged} unchanged</span>
+        <span class="regressed">{comparison.regressed} regressed</span>
+      </div>
+
+      {comparison.deltas.filter(d => d.delta !== 0).length > 0 && (
+        <table class="delta-table">
+          <thead>
+            <tr>
+              <th>Repo</th>
+              <th>Previous</th>
+              <th>Current</th>
+              <th>Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.deltas.filter(d => d.delta !== 0).slice(0, 30).map(d => (
+              <tr>
+                <td><a href={`${base}/repo/${d.slug.replace('/', '--')}/`}>{d.slug}</a></td>
+                <td><span style={`color: ${gradeColor(d.prevLetter)}`}>{d.prevLetter}</span> ({d.prevScore})</td>
+                <td><span style={`color: ${gradeColor(d.currLetter)}`}>{d.currLetter}</span> ({d.currScore})</td>
+                <td style={`color: ${deltaColor(d.delta)}; font-weight: 600`}>{d.delta > 0 ? '+' : ''}{d.delta}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </section>
+  )}
+
+  {hasData && latest && !comparison && (
+    <section class="card">
+      <h2>Latest Snapshot: {latest.meta.month}</h2>
+      <p>{latest.meta.successCount} repos analyzed. Run again next month to see score deltas.</p>
+      <div class="grade-dist">
+        {Object.entries(gradeDist).sort().map(([letter, count]) => (
+          <span class="grade-pill" style={`background: ${gradeColor(letter)}`}>
+            {letter}: {count}
+          </span>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 2rem 0 1rem;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    color: var(--text-muted, #888);
+    font-size: 1.1rem;
+  }
+  .card {
+    background: var(--card-bg, #1a1a2e);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem auto;
+    max-width: 900px;
+  }
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+  }
+  .empty-state code {
+    background: var(--code-bg, #2a2a4a);
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .stat {
+    text-align: center;
+    flex: 1;
+    min-width: 140px;
+  }
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .stat-label {
+    color: var(--text-muted, #888);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+  .history-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 200px;
+    padding: 1rem 0;
+    justify-content: center;
+  }
+  .history-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 80px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .history-bar {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    min-height: 4px;
+    position: relative;
+    transition: height 0.3s;
+  }
+  .bar-value {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .bar-label {
+    font-size: 0.7rem;
+    color: var(--text-muted, #888);
+    margin-top: 0.5rem;
+    white-space: nowrap;
+  }
+  .delta-summary {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1rem 0;
+    font-weight: 500;
+  }
+  .improved { color: var(--color-grade-a); }
+  .regressed { color: var(--color-grade-f); }
+  .unchanged { color: var(--text-muted, #888); }
+  .delta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  .delta-table th {
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border, #333);
+    color: var(--text-muted, #888);
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+  .delta-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border, #222);
+  }
+  .delta-table a {
+    color: var(--link-color, #60a5fa);
+    text-decoration: none;
+  }
+  .delta-table a:hover {
+    text-decoration: underline;
+  }
+  .grade-dist {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .grade-pill {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #000;
+  }
+  .overview {
+    padding: 0 1rem;
+  }
+</style>
