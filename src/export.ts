@@ -19,96 +19,23 @@
  * Usage: node dist/export.js
  */
 
-import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import type { Finding, DimensionResult } from "./dimensions/security.js";
 import type { LanguageBreakdownEntry } from "./analyze.js";
-import type { TreeAnalytics } from "./tree-analytics.js";
+import {
+  findJsonFiles,
+  loadReport,
+  isGraded,
+  type StoredReport,
+  type GradeDistribution,
+} from "./report-store.js";
 
 const DATA_DIR = join(process.cwd(), "data");
 const REPORTS_DIR = join(DATA_DIR, "reports");
 const DASHBOARD_DIR = join(DATA_DIR, "dashboard");
 const REPOS_DIR = join(DASHBOARD_DIR, "repos");
 
-interface StoredReport {
-  repo: string;
-  letter: string;
-  overall: number;
-  graded?: boolean;
-  dimensions: Array<DimensionResult & { durationMs?: number }>;
-  totalDurationMs: number;
-  projectType: string;
-  language: string | null;
-  languages?: { primary: string; all: LanguageBreakdownEntry[] };
-  analyzedAt: string;
-  toolVersion: string;
-  // Enriched metadata
-  description?: string;
-  topics?: string[];
-  pushed_at?: string;
-  created_at?: string;
-  forks_count?: number;
-  size?: number;
-  has_discussions?: boolean;
-  // Tree analytics
-  treeAnalytics?: Partial<TreeAnalytics>;
-}
-
-interface GradeDistribution {
-  A: number;
-  B: number;
-  C: number;
-  D: number;
-  F: number;
-}
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-/**
- * Recursively find all JSON files under a directory.
- */
-async function findJsonFiles(dir: string): Promise<string[]> {
-  const files: string[] = [];
-  let entries;
-  try {
-    entries = await readdir(dir, { withFileTypes: true });
-  } catch {
-    return files;
-  }
-  for (const entry of entries) {
-    const fullPath = join(dir, entry.name);
-    if (entry.isDirectory()) {
-      const nested = await findJsonFiles(fullPath);
-      files.push(...nested);
-    } else if (entry.name.endsWith(".json")) {
-      files.push(fullPath);
-    }
-  }
-  return files;
-}
-
-/**
- * Load and parse a single report file. Returns null on parse failure.
- */
-async function loadReport(filePath: string): Promise<StoredReport | null> {
-  try {
-    const content = await readFile(filePath, "utf-8");
-    return JSON.parse(content) as StoredReport;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Whether a stored report is for a graded (code) repository.
- * Reports without the `graded` field fall back to checking projectType.
- */
-function isGraded(report: StoredReport): boolean {
-  if (report.graded !== undefined) {
-    return report.graded;
-  }
-  return report.projectType !== "documentation";
-}
 
 /**
  * Extract star count from the "Community adoption (stars)" finding detail,
@@ -294,7 +221,10 @@ function buildLeaderboard(reports: StoredReport[]): { repos: LeaderboardEntry[] 
 }
 
 function buildLanguages(reports: StoredReport[]): { languages: LanguageStat[] } {
-  const byLanguage: Record<string, { scores: number[]; gradeDistribution: GradeDistribution; allUngraded: boolean }> = {};
+  const byLanguage: Record<string, { scores: number[]; gradeDistribution: GradeDistribution }> = {};
+
+  // count includes all repos (graded + ungraded) per language.
+  const totalCounts: Record<string, number> = {};
 
   for (const report of reports) {
     const lang = report.language ?? "unknown";
@@ -302,13 +232,12 @@ function buildLanguages(reports: StoredReport[]): { languages: LanguageStat[] } 
       byLanguage[lang] = {
         scores: [],
         gradeDistribution: emptyGradeDistribution(),
-        allUngraded: true,
       };
     }
+    totalCounts[lang] = (totalCounts[lang] ?? 0) + 1;
     const entry = byLanguage[lang];
     if (isGraded(report)) {
       entry.scores.push(report.overall);
-      entry.allUngraded = false;
       const grade = report.letter as keyof GradeDistribution;
       if (grade in entry.gradeDistribution) {
         entry.gradeDistribution[grade]++;
@@ -319,7 +248,7 @@ function buildLanguages(reports: StoredReport[]): { languages: LanguageStat[] } 
   const languages: LanguageStat[] = Object.entries(byLanguage)
     .map(([name, data]) => ({
       name,
-      count: data.scores.length + (data.allUngraded ? 0 : 0),
+      count: totalCounts[name] ?? 0,
       averageScore:
         data.scores.length > 0
           ? Math.round(data.scores.reduce((a, b) => a + b, 0) / data.scores.length)
@@ -327,17 +256,6 @@ function buildLanguages(reports: StoredReport[]): { languages: LanguageStat[] } 
       gradeDistribution: data.gradeDistribution,
     }))
     .sort((a, b) => b.count - a.count);
-
-  // Recompute count to include all repos (graded + ungraded) per language
-  const totalCounts: Record<string, number> = {};
-  for (const report of reports) {
-    const lang = report.language ?? "unknown";
-    totalCounts[lang] = (totalCounts[lang] ?? 0) + 1;
-  }
-  for (const lang of languages) {
-    lang.count = totalCounts[lang.name] ?? 0;
-  }
-  languages.sort((a, b) => b.count - a.count);
 
   return { languages };
 }
