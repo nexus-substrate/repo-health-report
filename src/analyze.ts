@@ -403,17 +403,41 @@ export function treeHasFile(tree: RepoTree, path: string): boolean {
 }
 
 /**
+ * Maximum file-path length we will run a detector regex against.
+ *
+ * Git itself limits a tree path to 4096 bytes, so any legitimate entry is
+ * comfortably under this bound. Several detector patterns have the shape
+ * `prefix.*X.*suffix$` (two unanchored `.*` runs), which can exhibit
+ * polynomial backtracking when the suffix fails to match on a long,
+ * adversarially-constructed path supplied by an analyzed (untrusted) repo.
+ * Bounding the input length keeps that O(n^2) worst case to a constant and
+ * closes the `js/polynomial-redos` class without altering match semantics for
+ * any real path. See https://codeql.github.com/codeql-query-help/javascript/js-polynomial-redos/
+ */
+const MAX_TREE_PATH_LENGTH = 4096;
+
+/**
+ * Test a single tree path against a detector pattern, skipping pathologically
+ * long inputs that could drive regex backtracking. Real git paths are always
+ * well under {@link MAX_TREE_PATH_LENGTH}.
+ */
+function pathMatches(path: string, pattern: RegExp): boolean {
+  if (path.length > MAX_TREE_PATH_LENGTH) return false;
+  return pattern.test(path);
+}
+
+/**
  * Check if any file in the tree matches a pattern.
  */
 export function treeHasPattern(tree: RepoTree, pattern: RegExp): boolean {
-  return tree.tree.some((entry) => pattern.test(entry.path));
+  return tree.tree.some((entry) => pathMatches(entry.path, pattern));
 }
 
 /**
  * Count files matching a pattern.
  */
 export function treeCountPattern(tree: RepoTree, pattern: RegExp): number {
-  return tree.tree.filter((entry) => pattern.test(entry.path)).length;
+  return tree.tree.filter((entry) => pathMatches(entry.path, pattern)).length;
 }
 
 export type ProjectType = "application" | "iac" | "library" | "hybrid" | "documentation" | "runtime" | "mirror";

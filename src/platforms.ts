@@ -47,6 +47,47 @@ function parseGitHubSlug(input: string): string {
 }
 
 /**
+ * Return the URL hostname for a string that looks like a URL, or `null` when
+ * the input is not a parseable absolute http(s) URL (e.g. a plain "owner/repo"
+ * slug, or a malformed/non-http URL).
+ *
+ * This is the basis for an exact-host check. A naive `input.includes("gitlab.com")`
+ * is bypassable by hosts such as `gitlab.com.attacker.com` or
+ * `evil-gitlab.com`, and by credential tricks like
+ * `https://gitlab.com@attacker.com/...` (whose host is `attacker.com`).
+ */
+function urlHostname(input: string): string | null {
+  // Accept scheme-relative / bare-host forms like "gitlab.com/owner/repo" by
+  // defaulting to https, but only when the first path segment looks like a
+  // hostname (contains a dot). A plain "owner/repo" slug must NOT be coerced
+  // into a host, so it returns null and falls through to the GitHub default.
+  const candidate =
+    /^https?:\/\//i.test(input) || !/^[^/]+\.[^/]+\//.test(input)
+      ? input
+      : `https://${input}`;
+
+  let url: URL;
+  try {
+    url = new URL(candidate);
+  } catch {
+    return null;
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    return null;
+  }
+  return url.hostname.toLowerCase();
+}
+
+/**
+ * Exact host match, allowing only the host itself or a real subdomain of it.
+ * Rejects look-alikes (`evil-github.com`), suffix tricks
+ * (`github.com.evil.com`), and substring matches.
+ */
+function hostMatches(hostname: string, host: string): boolean {
+  return hostname === host || hostname.endsWith(`.${host}`);
+}
+
+/**
  * Detect the hosting platform from user input (URL or slug).
  *
  * Supported:
@@ -56,8 +97,13 @@ function parseGitHubSlug(input: string): string {
  * - owner/repo (plain)     → GitHub (default)
  */
 export function detectPlatform(input: string): PlatformConfig {
+  // Resolve the real hostname for URL inputs so that host checks compare the
+  // actual host, never a substring of the raw string. Plain "owner/repo"
+  // slugs parse to `null` and fall through to the GitHub default below.
+  const hostname = urlHostname(input);
+
   // GitLab
-  if (input.includes("gitlab.com")) {
+  if (hostname !== null && hostMatches(hostname, "gitlab.com")) {
     const match = input.match(
       /gitlab\.com\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/
     );
@@ -75,7 +121,7 @@ export function detectPlatform(input: string): PlatformConfig {
   }
 
   // Codeberg
-  if (input.includes("codeberg.org")) {
+  if (hostname !== null && hostMatches(hostname, "codeberg.org")) {
     const match = input.match(
       /codeberg\.org\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/
     );
