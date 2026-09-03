@@ -54,10 +54,10 @@
   "author": "William Zujkowski",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.4.1"
+    "chalk": "^6.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.3",
-    "typescript": "^6.0.3"
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2"
   }
 }
